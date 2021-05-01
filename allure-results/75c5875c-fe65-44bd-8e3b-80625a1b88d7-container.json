@@ -1,0 +1,12 @@
+{
+  "uuid": "75c5875c-fe65-44bd-8e3b-80625a1b88d7",
+  "name": "Verify retrieving comments of the certain post",
+  "children": [
+    "bd584241-e127-4a5a-97dd-d4361a04c2a7"
+  ],
+  "befores": [],
+  "afters": [],
+  "links": [],
+  "start": 1619082365293,
+  "stop": 1619082371002
+}

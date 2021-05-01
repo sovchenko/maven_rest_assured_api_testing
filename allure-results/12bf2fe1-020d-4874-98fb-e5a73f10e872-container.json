@@ -1,0 +1,12 @@
+{
+  "uuid": "12bf2fe1-020d-4874-98fb-e5a73f10e872",
+  "name": "Verify retrieving of all posts",
+  "children": [
+    "83169e52-b98b-4c3f-803b-b2b8d2650c4d"
+  ],
+  "befores": [],
+  "afters": [],
+  "links": [],
+  "start": 1619082343916,
+  "stop": 1619082349558
+}

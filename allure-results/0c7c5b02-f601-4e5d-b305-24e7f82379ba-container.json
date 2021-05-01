@@ -1,0 +1,12 @@
+{
+  "uuid": "0c7c5b02-f601-4e5d-b305-24e7f82379ba",
+  "name": "Verify post creating",
+  "children": [
+    "250d55d0-a66e-46e7-b228-06aa11a53939"
+  ],
+  "befores": [],
+  "afters": [],
+  "links": [],
+  "start": 1619088578867,
+  "stop": 1619088586878
+}
