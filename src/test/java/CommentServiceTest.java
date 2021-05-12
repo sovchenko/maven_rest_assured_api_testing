@@ -1,28 +1,24 @@
-import models.Comment;
+import models.comments.Comment;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import services.CommentService;
 import util.TestRunner;
 import util.YamlUtil;
 
-import java.io.InputStream;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class CommentServiceTest extends TestRunner {
 
+    private final YamlUtil<Comment> yamlParser = new YamlUtil<>();
+    private final CommentService service = new CommentService();
+
     @Test
-    @DisplayName("Verify that that comment for the post can be created")
-    public void verifyContentOfTheCreatedComment() {
-//        InputStream commentFile = FileUtil.readFile("/home/sovchenko/IdeaProjects/api_testing/src/main/resources/test_data/comment.yaml");
-        InputStream commentFile = getClass().getResourceAsStream("config.properties");
-        YamlUtil<Comment> commentParser = new YamlUtil<>();
-        Comment initiallyCreatedComment = commentParser.parseYaml(commentFile, Comment.class);
+    @DisplayName("Verify that comment can be retrieved")
+    public void verifyCommentRetrieving() {
+        Comment existingComment = yamlParser.parseYamlFile("existing_comment.yml", Comment.class);
+        Comment retrievedComment = service.getCommentById(existingComment.getId());
 
-        CommentService service = new CommentService();
-        Comment retrievedComment = service.getCommentById(1);
-
-        assertThat(initiallyCreatedComment).isEqualTo(retrievedComment);
+        assertThat(existingComment).isEqualTo(retrievedComment);
     }
 }

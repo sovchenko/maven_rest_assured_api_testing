@@ -1,58 +1,42 @@
-import models.Comment;
-import models.Post;
+import models.posts.Post;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import services.PostsService;
-import util.FileUtil;
 import util.TestRunner;
 import util.YamlUtil;
-
-import java.io.InputStream;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PostServiceTest extends TestRunner {
 
     private final PostsService postsService = new PostsService();
+    private final YamlUtil<Post> yamlParser = new YamlUtil<>();
 
     @Test
-    @DisplayName("Verify amount of the retrieved posts")
-    public void verifyReceivingAllPosts() {
-        List<Post> posts = postsService.getPosts();
-        assertThat(posts.size()).isEqualTo(100);
-    }
-
-    @Test
-    @DisplayName("Verify comments amount for the post")
-    public void verifyReceivingPostComments() {
-        List<Comment> postComments = postsService.getPostComments(1);
-        assertThat(postComments.size()).isEqualTo(5);
-    }
-
-    @Test
-    @DisplayName("Verify post creating")
+    @DisplayName("Verify that post can be created")
     public void verifyPostCreating() {
-        InputStream inputStream = FileUtil.readFile("/home/sovchenko/IdeaProjects/api_testing/src/main/resources/test_data/post.yaml");
-        YamlUtil<Post> yamlParser = new YamlUtil<>();
-        Post newPost = yamlParser.parseYaml(inputStream, Post.class);
-        Post createdPost = postsService.createPost(newPost);
-        // best practice to create post using api and then retrieve it and compare to originally created
-        // unfortunately this service doesn't allow to do that
-        assertThat(newPost).isEqualTo(createdPost);
+        Post newPost = yamlParser.parseYamlFile("new_post.yml", Post.class);
+        postsService.createPost(newPost);
+        Post retrievedPost = postsService.getPost(newPost.getId());
+        assertThat(newPost).isEqualTo(retrievedPost);
     }
 
     @Test
     @DisplayName("Verify that post has been successfully updated")
     public void verifyPostUpdating() {
-        int postId = 1;
-        InputStream inputStream = FileUtil.readFile("/home/sovchenko/IdeaProjects/api_testing/src/main/resources/test_data/posts/updated_post.yaml");
-        YamlUtil<Post> yamlParser = new YamlUtil<>();
-        Post newPost = yamlParser.parseYaml(inputStream, Post.class);
-        Post updatedPost = postsService.createPost(newPost);
-        Post retrievedPost = postsService.updatePost(postId, updatedPost);
-        // best practice to update post using api and then retrieve with GET it and check it is indeed updated
-        // unfortunately this service doesn't allow to do that
+        Post updatedPost = yamlParser.parseYamlFile("updated_post.yml", Post.class);
+        postsService.updatePost(updatedPost.getId(), updatedPost);
+        Post retrievedPost = postsService.getPost(updatedPost.getId());
+
         assertThat(retrievedPost).isEqualTo(updatedPost);
+    }
+
+    @Test
+    @DisplayName("Verify that post can be retrieved")
+    public void verifyPostRetrieving() {
+        Post existingPost = yamlParser.parseYamlFile("existing_post.yml", Post.class);
+        Post retrievedPost = postsService.getPost(existingPost.getId());
+
+        assertThat(retrievedPost).isEqualTo(existingPost);
     }
 }

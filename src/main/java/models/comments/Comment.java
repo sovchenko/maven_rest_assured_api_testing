@@ -1,4 +1,4 @@
-package models;
+package models.comments;
 
 import lombok.Data;
 
