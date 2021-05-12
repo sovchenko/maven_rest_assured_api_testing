@@ -2,8 +2,8 @@ package services;
 
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-import models.Comment;
-import models.Post;
+import models.comments.Comment;
+import models.posts.Post;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ import static java.lang.String.format;
 import static util.SpecUtil.*;
 
 public class PostsService {
-    private StringBuilder basePath = new StringBuilder("/posts/");
+    private final String basePath = "/posts/";
 
     public List<Post> getPosts() {
-        RequestSpecification requestSpecification = createGetRequestSpecification(basePath.toString());
+        RequestSpecification requestSpecification = createGetRequestSpecification(basePath);
         ResponseSpecification responseSpecification = createResponseSpecification(200);
 
         return given(requestSpecification, responseSpecification)
@@ -28,9 +28,7 @@ public class PostsService {
     }
 
     public Post getPost(int postId) {
-        String customPath = basePath
-                .append(postId)
-                .toString();
+        String customPath = basePath + postId;
 
         RequestSpecification requestSpecification = createGetRequestSpecification(customPath);
         ResponseSpecification responseSpecification = createResponseSpecification(200);
@@ -41,9 +39,7 @@ public class PostsService {
     }
 
     public List<Comment> getPostComments(int postId) {
-        String customPath = basePath
-                .append("%s/comments")
-                .toString();
+        String customPath = basePath + "%s/comments";
 
         RequestSpecification requestSpecification = createGetRequestSpecification(format(customPath, postId));
         ResponseSpecification responseSpecification = createResponseSpecification(200);
@@ -57,30 +53,22 @@ public class PostsService {
                 .getList(".", Comment.class);
     }
 
-    public Post createPost(Post post) {
-        RequestSpecification requestSpecification = createPostRequestSpecification(basePath.toString(), post);
+    public void createPost(Post post) {
+        RequestSpecification requestSpecification = createPostRequestSpecification(basePath, post);
         ResponseSpecification responseSpecification = createResponseSpecification(201);
-        return given(requestSpecification, responseSpecification)
-                .post()
-                .as(Post.class);
+        given(requestSpecification, responseSpecification)
+                .post();
     }
 
-    public Post updatePost(int postId, Post post) {
-        String customPath = basePath
-                .append(postId)
-                .toString();
-
+    public void updatePost(int postId, Post post) {
+        String customPath = basePath + postId;
         RequestSpecification requestSpecification = createPostRequestSpecification(customPath, post);
         ResponseSpecification responseSpecification = createResponseSpecification(200);
-        return given(requestSpecification, responseSpecification)
-                .put()
-                .as(Post.class);
+        given(requestSpecification, responseSpecification).put();
     }
 
     public void deletePost(int postId) {
-        String customPath = basePath
-                .append(postId)
-                .toString();
+        String customPath = basePath + postId;
 
         RequestSpecification requestSpecification = createGetRequestSpecification(customPath);
         ResponseSpecification responseSpecification = createResponseSpecification(204);

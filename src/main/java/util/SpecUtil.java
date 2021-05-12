@@ -8,7 +8,7 @@ import io.restassured.parsing.Parser;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import lombok.experimental.UtilityClass;
-import models.Post;
+import models.posts.Post;
 
 import static io.restassured.http.ContentType.JSON;
 

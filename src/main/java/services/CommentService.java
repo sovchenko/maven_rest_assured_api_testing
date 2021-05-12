@@ -2,7 +2,7 @@ package services;
 
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-import models.Comment;
+import models.comments.Comment;
 import util.SpecUtil;
 
 import static io.restassured.RestAssured.given;
