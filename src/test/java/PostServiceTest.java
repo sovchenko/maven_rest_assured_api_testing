@@ -5,6 +5,8 @@ import services.PostsService;
 import util.TestRunner;
 import util.YamlUtil;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PostServiceTest extends TestRunner {
@@ -18,6 +20,7 @@ public class PostServiceTest extends TestRunner {
         Post newPost = yamlParser.parseYamlFile("new_post.yml", Post.class);
         postsService.createPost(newPost);
         Post retrievedPost = postsService.getPost(newPost.getId());
+
         assertThat(newPost).isEqualTo(retrievedPost);
     }
 
@@ -38,5 +41,17 @@ public class PostServiceTest extends TestRunner {
         Post retrievedPost = postsService.getPost(existingPost.getId());
 
         assertThat(retrievedPost).isEqualTo(existingPost);
+    }
+
+    @Test
+    @DisplayName("Verify that post can be removed")
+    public void verifyPostRemoving() {
+        Post newPost = yamlParser.parseYamlFile("removed_post.yml", Post.class);
+        postsService.createPost(newPost);
+        postsService.deletePost(newPost.getId());
+        List<Post> allPosts = postsService.getPosts();
+
+        //this test will always failed, because it's not possible to actually delete posts for this service
+        assertThat(allPosts).doesNotContain(newPost);
     }
 }

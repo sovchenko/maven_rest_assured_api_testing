@@ -71,7 +71,8 @@ public class PostsService {
         String customPath = basePath + postId;
 
         RequestSpecification requestSpecification = createGetRequestSpecification(customPath);
-        ResponseSpecification responseSpecification = createResponseSpecification(204);
+        //usually status code for the delete request is 204, but for this service it's 200
+        ResponseSpecification responseSpecification = createResponseSpecification(200);
 
         given(requestSpecification, responseSpecification)
                 .delete();
