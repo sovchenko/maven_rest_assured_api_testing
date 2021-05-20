@@ -8,7 +8,6 @@ import io.restassured.parsing.Parser;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import lombok.experimental.UtilityClass;
-import models.posts.Post;
 
 import static io.restassured.http.ContentType.JSON;
 
@@ -16,10 +15,9 @@ import static io.restassured.http.ContentType.JSON;
 public class SpecUtil {
     private static String baseUri = "https://jsonplaceholder.typicode.com";
 
-    public static RequestSpecification createGetRequestSpecification(String path) {
+    private static RequestSpecification createBaseRequestSpecification(String path) {
         return new RequestSpecBuilder()
                 .setAccept(JSON)
-                //should be read from the YAML or properties file
                 .setBaseUri(baseUri)
                 .setBasePath(path)
                 .addFilter(new ResponseLoggingFilter())
@@ -27,12 +25,20 @@ public class SpecUtil {
                 .build();
     }
 
-    public static RequestSpecification createPostRequestSpecification(String path, Post postModel) {
+    public static RequestSpecification createGetRequestSpecification(String path) {
+        return createBaseRequestSpecification(path);
+    }
+
+    public static RequestSpecification createPutRequestSpecification(String path) {
+        return createBaseRequestSpecification(path);
+    }
+
+    public static RequestSpecification createPostRequestSpecification(String path, String jsonString) {
         return new RequestSpecBuilder()
                 .setBaseUri(baseUri)
                 .setBasePath(path)
                 .setContentType(JSON)
-                .setBody(postModel)
+                .setBody(jsonString)
                 .addFilter(new RequestLoggingFilter())
                 .addFilter(new ResponseLoggingFilter())
                 .build();
