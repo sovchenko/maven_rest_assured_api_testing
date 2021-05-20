@@ -1,12 +1,13 @@
 package models.comments;
 
 import lombok.Data;
+import models.AbstractModel;
 
 @Data
-public class Comment {
+public class Comment extends AbstractModel {
     int postId;
-    int id;
     String name;
     String email;
     String body;
+    int id;
 }
