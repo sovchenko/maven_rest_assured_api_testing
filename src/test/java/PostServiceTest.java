@@ -2,7 +2,6 @@ import models.posts.Post;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import services.PostsService;
-import util.TestRunner;
 import util.YamlUtil;
 
 import java.util.List;
