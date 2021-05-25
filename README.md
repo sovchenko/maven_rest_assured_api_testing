@@ -17,3 +17,7 @@ Navigate to the project directory and run tests using the following command:
 ```
 mvn clean test
 ```
+To generate allure report run the following command in the project directory:
+```
+allure serve allure-results/
+```
