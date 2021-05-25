@@ -2,7 +2,6 @@ import models.comments.Comment;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import services.CommentService;
-import util.TestRunner;
 import util.YamlUtil;
 
 import static org.assertj.core.api.Assertions.assertThat;
