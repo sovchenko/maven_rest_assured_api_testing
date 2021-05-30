@@ -10,14 +10,13 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static java.lang.String.format;
-import static util.SpecUtil.*;
+import static services.Endpoints.POSTS_ENDPOINT;
 
-public class PostsService {
-    private final String basePath = "/posts/";
+public class PostsService extends BaseService {
 
     @Step("Retrieved all posts")
     public List<Post> getPosts() {
-        RequestSpecification requestSpecification = createGetRequestSpecification(basePath);
+        RequestSpecification requestSpecification = createGetRequestSpecification(POSTS_ENDPOINT);
         ResponseSpecification responseSpecification = createResponseSpecification(200);
 
         return given(requestSpecification, responseSpecification)
@@ -29,9 +28,9 @@ public class PostsService {
                 .getList(".", Post.class);
     }
 
-    @Step("Retrieved post by id")
-    public Post getPost(int postId) {
-        String customPath = basePath + postId;
+    @Step("Retrieved post by id = {id}")
+    public Post getPost(int id) {
+        String customPath = POSTS_ENDPOINT + id;
         RequestSpecification requestSpecification = createGetRequestSpecification(customPath);
         ResponseSpecification responseSpecification = createResponseSpecification(200);
 
@@ -40,10 +39,10 @@ public class PostsService {
                 .as(Post.class);
     }
 
-    @Step("Retrieved post comments")
-    public List<Comment> getPostComments(int postId) {
-        String customPath = basePath + "%s/comments";
-        RequestSpecification requestSpecification = createGetRequestSpecification(format(customPath, postId));
+    @Step("Retrieved post comments for post with id = {id}")
+    public List<Comment> getPostComments(int id) {
+        String customPath = POSTS_ENDPOINT + "%s/comments";
+        RequestSpecification requestSpecification = createGetRequestSpecification(format(customPath, id));
         ResponseSpecification responseSpecification = createResponseSpecification(200);
 
         return given(requestSpecification, responseSpecification)
@@ -57,7 +56,7 @@ public class PostsService {
 
     @Step("Created posts")
     public Post createPost(Post post) {
-        RequestSpecification requestSpecification = createPostRequestSpecification(basePath, post.toJsonString());
+        RequestSpecification requestSpecification = createPostRequestSpecification(POSTS_ENDPOINT, post.toJsonString());
         ResponseSpecification responseSpecification = createResponseSpecification(201);
 
         return given(requestSpecification, responseSpecification)
@@ -65,18 +64,18 @@ public class PostsService {
                 .as(Post.class);
     }
 
-    @Step("Updated post")
-    public void updatePost(int postId, Post post) {
-        String customPath = basePath + postId;
+    @Step("Updated post with id = {id}")
+    public void updatePost(int id, Post post) {
+        String customPath = POSTS_ENDPOINT + id;
         RequestSpecification requestSpecification = createPostRequestSpecification(customPath, post.toJsonString());
         ResponseSpecification responseSpecification = createResponseSpecification(200);
 
         given(requestSpecification, responseSpecification).put();
     }
 
-    @Step("Deleted post")
-    public void deletePost(int postId) {
-        String customPath = basePath + postId;
+    @Step("Deleted post with id = {id}")
+    public void deletePost(int id) {
+        String customPath = POSTS_ENDPOINT + id;
         RequestSpecification requestSpecification = createGetRequestSpecification(customPath);
         ResponseSpecification responseSpecification = createResponseSpecification(200);
 

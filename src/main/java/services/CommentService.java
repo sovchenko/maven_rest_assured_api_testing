@@ -6,14 +6,13 @@ import io.restassured.specification.ResponseSpecification;
 import models.comments.Comment;
 
 import static io.restassured.RestAssured.given;
-import static util.SpecUtil.*;
+import static services.Endpoints.COMMENTS_ENDPOINT;
 
 public class CommentService extends BaseService {
-    private String basePath = "/comments/";
 
-    @Step("Retrieved comment by comment id")
+    @Step("Retrieved comment by comment id = {id}")
     public Comment getCommentById(int id) {
-        String commentIdPath = basePath + id;
+        String commentIdPath = COMMENTS_ENDPOINT + id;
         RequestSpecification requestSpecification = createGetRequestSpecification(commentIdPath);
         ResponseSpecification responseSpecification = createResponseSpecification(200);
 
@@ -24,7 +23,7 @@ public class CommentService extends BaseService {
 
     @Step("Created comment")
     public Comment createComment(Comment comment) {
-        RequestSpecification requestSpecification = createPostRequestSpecification(basePath, comment.toJsonString());
+        RequestSpecification requestSpecification = createPostRequestSpecification(COMMENTS_ENDPOINT, comment.toJsonString());
         ResponseSpecification responseSpecification = createResponseSpecification(201);
 
         return given(requestSpecification, responseSpecification)
@@ -32,9 +31,9 @@ public class CommentService extends BaseService {
                 .as(Comment.class);
     }
 
-    @Step("Updated the comment")
-    public Comment updateComment(int commentId, Comment newComment) {
-        RequestSpecification requestSpecification = createPutRequestSpecification(basePath + commentId);
+    @Step("Updated the comment with id = {id}")
+    public Comment updateComment(int id, Comment newComment) {
+        RequestSpecification requestSpecification = createPutRequestSpecification(COMMENTS_ENDPOINT + id);
         ResponseSpecification responseSpecification = createResponseSpecification(200);
 
         return given(requestSpecification, responseSpecification)
