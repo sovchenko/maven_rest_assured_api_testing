@@ -1,3 +1,5 @@
+package comments;
+
 import models.comments.Comment;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,7 +9,7 @@ import util.YamlUtil;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class CommentServiceTest extends TestRunner {
+public class CommentServiceTest {
 
     private final YamlUtil<Comment> yamlParser = new YamlUtil<>();
     private final CommentService commentService = new CommentService();
@@ -15,7 +17,8 @@ public class CommentServiceTest extends TestRunner {
     @Test
     @DisplayName("Verify that comment can be retrieved")
     public void verifyCommentRetrieving() {
-        Comment existingComment = yamlParser.parseYamlFile("existing_comment.yml", Comment.class);
+        String existingCommentYaml = "existing_comment.yml";
+        Comment existingComment = yamlParser.parseYamlFile(existingCommentYaml, Comment.class);
         Comment retrievedComment = commentService.getCommentById(existingComment.getId());
 
         assertThat(existingComment).isEqualTo(retrievedComment);
@@ -24,7 +27,8 @@ public class CommentServiceTest extends TestRunner {
     @Test
     @DisplayName("Verify that comment can be created")
     public void verifyCommentCreating() {
-        Comment newComment = yamlParser.parseYamlFile("new_comment.yml", Comment.class);
+        String newCommentYaml = "new_comment.yml";
+        Comment newComment = yamlParser.parseYamlFile(newCommentYaml, Comment.class);
         int newCommentId = commentService.createComment(newComment).getId();
         Comment retrievedComment = commentService.getCommentById(newCommentId);
 
@@ -39,7 +43,8 @@ public class CommentServiceTest extends TestRunner {
     @DisplayName("Verify that comment can be updated")
     public void verifyCommentUpdating() {
         int commentId = 10;
-        Comment updatedComment = yamlParser.parseYamlFile("updated_comment.yml", Comment.class);
+        String updatedCommentYaml = "updated_comment.yml";
+        Comment updatedComment = yamlParser.parseYamlFile(updatedCommentYaml, Comment.class);
         commentService.updateComment(commentId, updatedComment);
         Comment retrievedComment = commentService.getCommentById(commentId);
 
