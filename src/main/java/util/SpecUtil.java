@@ -9,6 +9,7 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import lombok.experimental.UtilityClass;
 
+import static io.restassured.filter.log.LogDetail.*;
 import static io.restassured.http.ContentType.JSON;
 
 @UtilityClass
@@ -20,8 +21,8 @@ public class SpecUtil {
                 .setAccept(JSON)
                 .setBaseUri(baseUri)
                 .setBasePath(path)
-                .addFilter(new ResponseLoggingFilter())
-                .addFilter(new RequestLoggingFilter())
+                .addFilter(new RequestLoggingFilter(URI))
+                .addFilter(new RequestLoggingFilter(BODY))
                 .build();
     }
 
@@ -39,8 +40,8 @@ public class SpecUtil {
                 .setBasePath(path)
                 .setContentType(JSON)
                 .setBody(jsonString)
-                .addFilter(new RequestLoggingFilter())
-                .addFilter(new ResponseLoggingFilter())
+                .addFilter(new RequestLoggingFilter(URI))
+                .addFilter(new RequestLoggingFilter(BODY))
                 .build();
     }
 
